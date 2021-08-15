@@ -30,15 +30,15 @@ xaringanExtra::use_freezeframe()
 # https://www.garrickadenbuie.com/blog/sharing-xaringan-slides/
 library(metathis)
 meta() %>%
-  meta_name("github-repo" = "llrs/gahna_packages") %>% 
+  meta_name("github-repo" = "llrs/ghana_packages") %>% 
   meta_social(
     title = "Creating packages",
     description = paste(
       "Workshop about how to create packages",
       "Presented at for R User Group of Gahna."
     ),
-    url = "https://gahna_packages.llrs.dev",
-    image = "https://gahna_packages.llrs.dev/index_files/figure-html/title_slide_screenshot.png",
+    url = "https://ghana_packages.llrs.dev",
+    image = "https://ghana_packages.llrs.dev/index_files/figure-html/title_slide_screenshot.png",
     image_alt = paste(
       "Image of the first slide for Reviewing packages; how does it work?", 
       ".", 
