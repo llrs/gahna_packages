@@ -1,0 +1,508 @@
+---
+title: "Creating packages"
+subtitle: "with devtools and usethis"
+author: '[Lluís Revilla Sancho](https://llrs.dev) 
+ [`r icons::fontawesome("twitter")`](https://twitter.com/Lluis_Revilla) <br> 
+ [Slides: ](https://.llrs.dev) 
+ [`r icons::fontawesome("github")`](https://github.com/llrs/ghana_packages/) 
+ '
+institute: "IDIBAPS, CIBEREHD"
+date: "2021/08/31 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      beforeInit: "macros.js"
+      ratio: 16:9
+      titleSlideClass: ["left", "center", "middle", "inverse"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r xaringan-setup, echo=FALSE}
+xaringanExtra::use_tile_view()
+xaringanExtra::use_freezeframe()
+```
+
+
+```{r metathis, echo=FALSE}
+# https://www.garrickadenbuie.com/blog/sharing-xaringan-slides/
+library(metathis)
+meta() %>%
+  meta_name("github-repo" = "llrs/gahna_packages") %>% 
+  meta_social(
+    title = "Creating packages",
+    description = paste(
+      "Workshop about how to create packages",
+      "Presented at for R User Group of Gahna."
+    ),
+    url = "https://gahna_packages.llrs.dev",
+    image = "https://gahna_packages.llrs.dev/index_files/figure-html/title_slide_screenshot.png",
+    image_alt = paste(
+      "Image of the first slide for Reviewing packages; how does it work?", 
+      ".", 
+      "Done for the Gahna R user group on 2021/09 by Lluís Revilla Sancho"
+    ),
+    og_type = "website",
+    og_author = "Lluís Revilla Sancho",
+    twitter_card_type = "summary_large_image",
+    twitter_creator = "@Lluis_Revilla"
+  )
+```
+
+
+# About 
+
+.center[**myself**]
+
+I'm [Lluís Revilla Sancho](https://llrs.dev), a bioinformatician working on a research center of a hospital.
+
+Three packages on repositories: [BioCor](https://bioconductor.org/packages/BioCor/), [BaseSet](https://cran.r-project.org/package=BaseSet) and [experDesign](https://cran.r-project.org/package=experDesign). 
+ 
+I have reviewed some packages on [rOpenSci](https://ropensci.org) and informally at [Bioconductor](https://bioconductor.org). 
+
+.center[**you**]
+
+... know how to use R.  
+... are using [RStudio IDE](https://www.rstudio.com/products/rstudio/download/).  
+... have not created a package.  
+... are using a computer with [devtools](https://cran.r-project.org/package=devtools) installed.  
+
+If you want to be sure run this code:
+
+```r
+if (!require("devtools", character.only = TRUE, quietly = TRUE)) {
+  install.packages("devtools")
+}
+if (!require("covr", character.only = TRUE, quietly = TRUE)) {
+  install.packages("covr")
+}
+```
+
+???
+
+[devtools](https://cran.r-project.org/package=devtools) is a package to help develop packages.
+[Countdown](https://pkg.garrickadenbuie.com/countdown/) helper
+
+---
+
+
+# Resources 
+
+- [R extensions](https://cran.r-project.org/doc/manuals/r-release/R-exts.html "Offical complete instructions"): Official documentation, everything is answered here
+- [R packages](https://r-pkgs.org/ "R pakages"): A book more digestible and using other packages and tools to create packages.
+- [Package primer](https://kbroman.org/pkg_primer/ "R package primer a minimal tutorial"): Website explaining different aspects of creating a package.
+- [Creating R packages from scratch](https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/ "Creating a cats package"): Very easy to follow blog post.
+- [Updated version by Tomas Westlake](https://r-mageddon.netlify.app/post/writing-an-r-package-from-scratch/ "Creating a cats package with usethis"): Similar to the post above but updated with more modern tools.
+- [rOpenSci](https://devguide.ropensci.org/): A book  about writing packages and maintaining them on good shape.
+
+Many resources!
+
+You can also find help online
+
+???
+
+Resources used to create this workshop
+
+[Maëlle post](https://masalmon.eu/2017/12/11/goodrpackages/): how to write good packages is also recommended.
+
+---
+
+## Example
+
+.left-column[
+
+```{r, echo=FALSE, out.height="500px", out.width="160px", fig.alt="Tree view of the dtplyr package repository on 2021/08/06."}
+knitr::include_graphics("images/tidyverse_dtplyr.png")
+```
+
+]
+
+.right-column[
+- `.github` folder: Files specific to GitHub (this isn't necessary)<sup>[Advanced content](#advanced)</sup>
+- A `R` folder with [*.R files](#r-files): your code.
+- A `man` folder with [*.rd files](#rd-files): your documentation.
+- A `tests` folder: [Check the code](#tests) of the package.
+- A [`vignette` folder](#vignettes): Long documentation not just examples.
+- A `.Rbuildignore`: A file describing what to omit when building the package
+- A [`DESCRIPTION` file](#description): Summary and description of the package.
+- A [`LICENSE` file](#licenses): The conditions under the package is released.
+- A [`NAMESPACE` file](#namespace): What this package shares and needs.
+- A [`NEWS` file](#news): What has changed since last release.
+- A [`README`](#readme): How to install and why this packages is needed and some basic examples.
+]
+
+---
+
+
+## Template
+
+.pull-left[
+
+```r
+create_package("dogs")
+```
+
+]
+
+.pull-right[
+- Creates DESCRIPTION file
+- Creates R files
+- Creates documentation files
+- Creates NAMESPACE file
+]
+
+--
+
+Suggestions for packages:
+
+- fruits
+- cats
+- food
+- sports
+- ...
+
+```{r countdown1, echo=FALSE}
+countdown::countdown(minutes = 1, seconds = 30, top = 0, margin = "5%")
+```
+
+
+---
+name: description
+
+## DESCRIPTION
+
+.pull-left[
+```
+Package: BaseSet
+Title: Short Descriptiono in Title Case
+Version: 0.0.9000
+Authors@R: c(person(given = "Lluís",
+             family = "Revilla Sancho",
+             role = c("aut", "cre", "cph"),
+             email = "lluis.revilla@gmail.com"),
+             ...)
+Description: A long description of the pacakge
+License: MIT + file LICENSE
+Depends: 
+    R (>= 4.0.0)
+Imports: 
+    dplyr (>= 1.0.0),
+    methods
+Suggests: 
+    covr,
+    knitr,
+    rmarkdown,
+    spelling,
+    testthat (>= 2.1.0)
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+Language: en-US
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+```
+]
+
+???
+Name of the package, description of the package, maintainer, relationships with other packages...
+Language does not need to be on English, it can be in other languages
+--
+
+.pull-right[
+Modify the DESCRIPTION of your package. 
+
+- Add a good title.
+- Add a Description.
+- Add yourself as an author.
+
+```{r countdown2, echo=FALSE}
+countdown::countdown(minutes = 3, top = 0)
+```
+
+]
+
+---
+name:r-files
+
+## Add R files
+
+```r
+usethis::use_r("dog_functions")
+```
+.center[
+![:scale 60% "GIF of hadly wickham saying just typing R code"](https://c.tenor.com/pnK2MIoEAccAAAAC/hadley-wickham.gif)
+]
+
+---
+
+## Add R files
+
+1. Only functions!
+2. If a function uses a function of a library use `library::function`
+    3. Add that library to the appropriate site on [Description](#description)
+    4. add a `#' @importFrom library function` (See next slide)
+
+```r
+meow <- function() {
+    message("meow")
+}
+```
+```{r countdown2b, echo=FALSE}
+countdown::countdown(minutes = 3, top = 0)
+```
+
+---
+name:namespace
+## NAMESPACE
+
+Import code of other packages and export code of your package:
+
+```r
+import(dplyr)
+importFrom(methods, is)
+export(meow)
+```
+
+--
+
+If using roxygen2 you can use:
+
+```r
+#' @importFrom methods is
+NULL # or your function
+
+#' @export #<< To make it available to others
+meow <- function() {
+    message("meow")
+} 
+```
+
+Which will be written to the NAMESPACE file when [updating the documentation](#rd-files)
+
+???
+Important file!
+
+---
+name:readme
+## Documentation
+
+### README
+
+First page people might read if on Github or on a computer.
+
+```r
+usethis::use_readme_rmd() # build_readme()
+```
+
+Example README:
+```{r data-table, echo=FALSE}
+knitr::include_graphics("images/data.table_README.png")
+```
+
+--
+
+Modify README:
+
+```{r countdown3, echo=FALSE}
+countdown::countdown(minutes = 3, top = 0)
+```
+ 
+
+---
+name:rd-files
+
+## Documentation
+
+### Function documentation
+
+Using [roxygen2](https://cran.r-project.org/package=roxygen2)
+Example:
+
+```r
+#' 
+```
+
+```r
+document()
+```
+
+--
+Write your own documentation
+
+```{r countdown4, echo=FALSE}
+countdown::countdown(minutes = 3, top = 0)
+```
+
+
+---
+name: vignettes
+
+## Documentation
+
+### Vignettes
+
+Long form of documentation, how multiple functions work together (It can use functions of other packages)
+
+```r
+usethis::use_vignette()
+```
+
+Edit the title 
+
+--
+Write your own vignette:
+- Fruits growing
+- Dogs/cats exploring the house or the neighborhood
+- A match of your sport
+- ...
+
+```{r countdown5, echo = FALSE}
+countdown::countdown(minutes = 3, top = 0)
+```
+
+
+---
+name: tests
+
+## Tests
+
+Make sure that what you think it happens it really stays that way:
+
+```r
+uses_testthat()
+```
+
+
+--
+```{r countdown6, echo=FALSE}
+countdown::countdown(minutes = 3, top = 0)
+```
+
+---
+name:licenses
+## Licenses
+
+If sharing the package what can people do with your package? 
+
+- **Permissive** licenses: Code with a permissive license can be freely copied, modified, and published, and the only restriction is that the license must be preserved. 
+
+- **Copyleft** licenses: if you publish modified versions or bundle with other code, the modified version or complete bundle must also be licensed with the same license.
+
+```{r licenses, eval=FALSE}
+usethis::use_mit_license() # Permissive
+usethis::use_gpl_license() # Copyleft
+usethis::use_proprietary_license() # Own license
+```
+
+.right[<sup>[Source](https://r-pkgs.org/license.html)</sup>]
+
+???
+
+---
+name: news
+
+## NEWS
+
+Sharing what changed between releases
+
+```r
+usethis::use_news_md()
+```
+
+???
+Modify to explain the changes.
+Good idea to use - (#issue, `@user`)
+
+--
+
+```{r countdown7, echo=FALSE}
+countdown::countdown(minutes = 3, top = 0)
+```
+
+---
+## Finishing and checking
+
+```r
+check()
+```
+
+It should pass without Warnings or Errors. 
+If not (most probable) fix the problems found 
+
+???
+Automatically runs the test and checks the package compilance with common quality standards
+
+---
+
+## That's all
+
+
+.center[
+![:scale 60% "That's all folks"](https://media.giphy.com/media/lD76yTC5zxZPG/giphy.gif)
+]
+
+---
+
+## Developing your package
+
+- [Modify or add](#r-files) more *.R files to the R folder
+- [Add or change function's documentation](#rd-files) and [vignettes](#vignettes) and update it (`document()`)
+- Check the package (`check()`)
+- Repeat.
+
+---
+## Questions, doubts, comments?
+
+Thanks for following through it.
+
+---
+name:advanced
+# Advanced
+
+## Git
+
+Set up git as a control version system. This allows to share on [GitHub](https://github.com).
+To set it up use:
+
+```{r git, eval=FALSE}
+usethis::use_git()
+```
+
+
+---
+# Advanced
+## Github
+
+Share the package on Github:
+
+```{r github, eval=FALSE}
+usethis::use_github()
+```
+
+Add checks
+
+```{r github-action, eval=FALSE}
+usethis::use_github_action_check_release()
+```
+
+Use the git panel of Rstudio to commit and push updates on the package. 
+
+---
+# Advanced
+## Code coverage
+
+
+```{r coverage, eval=FALSE}
+usethis::use_coverage()
+```
+
+---
+# Advanced
+## Pkgdown website
+
+```{r pkgdown, eval=FALSE}
+usethis::use_pkgdown()
+usethis::use_pkgdown_github_pages()
+```
