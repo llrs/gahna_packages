@@ -6,31 +6,35 @@
     <meta name="author" content="Lluís Revilla Sancho     Slides:  " />
     <script src="libs/header-attrs-2.9/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
     <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
     <script src="libs/tile-view-0.2.6/tile-view.js"></script>
     <script src="libs/freezeframe-5.0.2/freezeframe.min.js"></script>
     <script src="libs/xaringanExtra-freezeframe-0.0.1/freezeframe-init.js"></script>
     <script id="xaringanExtra-freezeframe-options" type="application/json">{"selector":"img[src$=\"gif\"]","trigger":"click","overlay":false,"responsive":true,"warnings":true}</script>
-    <meta name="github-repo" content="llrs/gahna_packages"/>
+    <script src="libs/clipboard-2.0.6/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <meta name="github-repo" content="llrs/ghana_packages"/>
     <meta name="twitter:title" content="Creating packages"/>
-    <meta name="twitter:description" content="Workshop about how to create packages Presented at for R User Group of Gahna."/>
-    <meta name="twitter:url" content="https://gahna_packages.llrs.dev"/>
-    <meta name="twitter:image" content="https://gahna_packages.llrs.dev/index_files/figure-html/title_slide_screenshot.png"/>
+    <meta name="twitter:description" content="Workshop about how to create packages For R User Group of Gahna on the ."/>
+    <meta name="twitter:url" content="https://ghana_packages.llrs.dev"/>
+    <meta name="twitter:image" content="https://ghana_packages.llrs.dev/index_files/figure-html/title_slide_screenshot.png"/>
     <meta name="twitter:image:alt" content="Image of the first slide for Reviewing packages; how does it work? . Done for the Gahna R user group on 2021/09 by Lluís Revilla Sancho"/>
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:creator" content="@Lluis_Revilla"/>
     <meta name="twitter:site" content="@Lluis_Revilla"/>
     <meta property="og:title" content="Creating packages"/>
-    <meta property="og:description" content="Workshop about how to create packages Presented at for R User Group of Gahna."/>
-    <meta property="og:url" content="https://gahna_packages.llrs.dev"/>
-    <meta property="og:image" content="https://gahna_packages.llrs.dev/index_files/figure-html/title_slide_screenshot.png"/>
+    <meta property="og:description" content="Workshop about how to create packages For R User Group of Gahna on the ."/>
+    <meta property="og:url" content="https://ghana_packages.llrs.dev"/>
+    <meta property="og:image" content="https://ghana_packages.llrs.dev/index_files/figure-html/title_slide_screenshot.png"/>
     <meta property="og:image:alt" content="Image of the first slide for Reviewing packages; how does it work? . Done for the Gahna R user group on 2021/09 by Lluís Revilla Sancho"/>
     <meta property="og:type" content="website"/>
     <meta property="og:locale" content="en_US"/>
     <meta property="article:author" content="Lluís Revilla Sancho"/>
     <link href="libs/countdown-0.3.5/countdown.css" rel="stylesheet" />
     <script src="libs/countdown-0.3.5/countdown.js"></script>
+    <link rel="stylesheet" href="my-theme.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -38,9 +42,9 @@ class: left, center, middle, inverse, title-slide
 
 # Creating packages
 ## with devtools and usethis
-### <a href="https://llrs.dev">Lluís Revilla Sancho</a> <a href="https://twitter.com/Lluis_Revilla"><svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"> <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg></a> <br> <a href="https://.llrs.dev">Slides:</a> <a href="https://github.com/llrs/ghana_packages/"><svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"> <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg></a>
+### <a href="https://llrs.dev">Lluís Revilla Sancho</a> <a href="https://twitter.com/Lluis_Revilla"><svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"> <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg></a> <br> <a href="https://ghana_packages.llrs.dev">Slides:</a> <a href="https://github.com/llrs/ghana_packages/"><svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"> <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg></a>
 ### IDIBAPS, CIBEREHD
-### 2021/08/31 (updated: 2021-08-15)
+### 2021/08/31 (updated: 2021-08-23)
 
 ---
 
@@ -63,10 +67,12 @@ I have reviewed some packages on [rOpenSci](https://ropensci.org) and informally
 
 .center[**you**]
 
-... know how to use R.  
+.right[
+... know how to use R and write functions.  
 ... are using [RStudio IDE](https://www.rstudio.com/products/rstudio/download/).  
 ... have not created a package.  
 ... are using a computer with [devtools](https://cran.r-project.org/package=devtools) installed.  
+]
 
 If you want to be sure run this code:
 
@@ -82,10 +88,11 @@ if (!require("covr", character.only = TRUE, quietly = TRUE)) {
 ???
 
 [devtools](https://cran.r-project.org/package=devtools) is a package to help develop packages.
-[Countdown](https://pkg.garrickadenbuie.com/countdown/) helper
+Currently many actions are done via [usethis](https://cran.r-project.org/package=usethis).
+If you see something like `usethis::function` it means we call the `function` from usethis package. 
 
 ---
-
+name:resources
 
 # Resources 
 
@@ -95,10 +102,15 @@ if (!require("covr", character.only = TRUE, quietly = TRUE)) {
 - [Creating R packages from scratch](https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/ "Creating a cats package"): Very easy to follow blog post.
 - [Updated version by Tomas Westlake](https://r-mageddon.netlify.app/post/writing-an-r-package-from-scratch/ "Creating a cats package with usethis"): Similar to the post above but updated with more modern tools.
 - [rOpenSci](https://devguide.ropensci.org/): A book  about writing packages and maintaining them on good shape.
+- [Video](https://www.youtube.com/watch?v=IlWMkz769B4) with a similar workshop showing live the code used. 
 
 Many resources!
 
-You can also find help online
+You can also find help online (always check the etiquette)
+- Asking your local community
+- [Asking on Twitter #rstats](https://www.t4rstats.com/)
+- [Asking on Stack Overflow](https://stackoverflow.com/questions/5963269)
+- [Asking on Rstudio forum](https://community.rstudio.com/)
 
 ???
 
@@ -117,12 +129,12 @@ Resources used to create this workshop
 ]
 
 .right-column[
-- `.github` folder: Files specific to GitHub (this isn't necessary)&lt;sup&gt;[Advanced content](#advanced)&lt;/sup&gt;
+- `.github` folder: Files specific to GitHub (this isn't necessary/[Advanced content](#advanced))
 - A `R` folder with [*.R files](#r-files): your code.
 - A `man` folder with [*.rd files](#rd-files): your documentation.
 - A `tests` folder: [Check the code](#tests) of the package.
-- A [`vignette` folder](#vignettes): Long documentation not just examples.
-- A `.Rbuildignore`: A file describing what to omit when building the package
+- A [`vignette` folder](#vignettes): Long documentation; not just examples.
+- A `.Rbuildignore`: A file describing what to omit when building the package.
 - A [`DESCRIPTION` file](#description): Summary and description of the package.
 - A [`LICENSE` file](#licenses): The conditions under the package is released.
 - A [`NAMESPACE` file](#namespace): What this package shares and needs.
@@ -140,6 +152,8 @@ Resources used to create this workshop
 ```r
 create_package("dogs")
 ```
+
+It will create a dogs project within the directory and will open a new Rstudio window.
 
 ]
 
@@ -160,7 +174,7 @@ Suggestions for packages:
 - sports
 - ...
 
-<div class="countdown" id="timer_6118eded" style="top:0;right:0;margin:5%;" data-warnwhen="0">
+<div class="countdown" id="timer_61238520" style="top:0;right:0;margin:5%;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">30</span></code>
 </div>
 
@@ -171,7 +185,6 @@ name: description
 ## DESCRIPTION
 
 .pull-left[
-
 ```
 Package: BaseSet
 Title: Short Descriptiono in Title Case
@@ -215,7 +228,7 @@ Modify the DESCRIPTION of your package.
 - Add a Description.
 - Add yourself as an author.
 
-<div class="countdown" id="timer_6118efa0" style="top:0;right:0;" data-warnwhen="0">
+<div class="countdown" id="timer_61238389" style="top:0;right:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -226,28 +239,33 @@ name:r-files
 
 ## Add R files
 
+On the new package R console run:
+
 ```r
 usethis::use_r("dog_functions")
 ```
+
+It will create a `dog_functions.R` file inside the R folder (and it will open it).
+
 .center[
-![:scale 60% "GIF of hadly wickham saying just typing R code"](https://c.tenor.com/pnK2MIoEAccAAAAC/hadley-wickham.gif)
+![:scale 50% "GIF of hadly wickham saying just typing R code"](https://c.tenor.com/pnK2MIoEAccAAAAC/hadley-wickham.gif)
 ]
 
 ---
 
 ## Add R files
 
-1. Only functions!
-2. If a function uses a function of a library use `library::function`
-    3. Add that library to the appropriate site on [Description](#description)
-    4. add a `#' @importFrom library function` (See next slide)
+1. Only valid R code: functions, objects, environments that don't depend on previous code executed. 
+2. If a function uses a function of an other package use `package::function`
+    3. Add that package to the appropriate site on [Description](#description)
+    4. add a `#' @importFrom package function` (See next slide)
 
 ```r
 meow &lt;- function() {
     message("meow")
 }
 ```
-<div class="countdown" id="timer_6118ef07" style="top:0;right:0;" data-warnwhen="0">
+<div class="countdown" id="timer_612381be" style="top:0;right:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -260,6 +278,7 @@ Import code of other packages and export code of your package:
 ```r
 import(dplyr)
 importFrom(methods, is)
+export(meow)
 ```
 
 --
@@ -268,11 +287,13 @@ If using roxygen2 you can use:
 
 ```r
 #' @importFrom methods is
-NULL # or your function
+is_meow &lt;- function(x){
+    methods(x, "meow")
+}
 
-#' import dplyr
-my_function &lt;- function(x) {
-    dplyr::filter(x, stars &gt; 5)
+#' @export #&lt;&lt; To make it available to others
+meow &lt;- function() {
+    message("meow")
 } 
 ```
 
@@ -300,7 +321,7 @@ Example README:
 
 Modify README:
 
-<div class="countdown" id="timer_6118efd2" style="top:0;right:0;" data-warnwhen="0">
+<div class="countdown" id="timer_612384e1" style="top:0;right:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
  
@@ -312,21 +333,40 @@ name:rd-files
 
 ### Function documentation
 
-Using [roxygen2](https://cran.r-project.org/package=roxygen2)
-Example:
+.pull-left[
+Using [roxygen2](https://cran.r-project.org/package=roxygen2), example:
 
 ```r
-#' 
+#' Title
+#'
+#' Description
+#' @param x 
+#'
+#' @return Values returned
+#' @export
+#'
+#' @examples
+#' a("hi")
+a &lt;- function(x) {
+  print(x)
+}
 ```
 
+Convert this specials comments into *.Rd files with:
 ```r
 document()
 ```
+]
+???
+
+In Rstudio you can insert the skeleton with &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Alt&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;R&lt;/kbd&gt; .
+In Rstudio you can convert the special comments into documentation with &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;D&lt;/kbd&gt; .
 
 --
-Write your own documentation
 
-<div class="countdown" id="timer_6118eeaf" style="top:0;right:0;" data-warnwhen="0">
+.pull-right[Write your own documentation]
+
+<div class="countdown" id="timer_6123836d" style="top:0;right:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -344,16 +384,21 @@ Long form of documentation, how multiple functions work together (It can use fun
 usethis::use_vignette()
 ```
 
-Edit the title 
+Edit the title!
+
+```r
+
+```
 
 --
+
 Write your own vignette:
 - Fruits growing
 - Dogs/cats exploring the house or the neighborhood
 - A match of your sport
 - ...
 
-<div class="countdown" id="timer_6118ef6a" style="top:0;right:0;" data-warnwhen="0">
+<div class="countdown" id="timer_61238468" style="top:0;right:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -371,7 +416,7 @@ uses_testthat()
 
 
 --
-<div class="countdown" id="timer_6118ed8d" style="top:0;right:0;" data-warnwhen="0">
+<div class="countdown" id="timer_6123830a" style="top:0;right:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -413,7 +458,7 @@ Good idea to use - (#issue, `@user`)
 
 --
 
-<div class="countdown" id="timer_6118ee3a" style="top:0;right:0;" data-warnwhen="0">
+<div class="countdown" id="timer_612383b2" style="top:0;right:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
