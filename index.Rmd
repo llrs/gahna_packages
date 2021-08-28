@@ -288,12 +288,13 @@ export(meow)
 If using roxygen2 you can use:
 
 ```r
+#' @import dplyr
 #' @importFrom methods is
 is_meow <- function(x){
     methods(x, "meow")
 }
 
-#' @export #<< To make it available to others
+#' @export # To make it available to others
 meow <- function() {
     message("meow")
 } 
@@ -355,12 +356,15 @@ a <- function(x) {
   print(x)
 }
 ```
+]
 
+.pull-right[
 Convert this specials comments into *.Rd files with:
 ```r
 document()
 ```
 ]
+
 ???
 
 In Rstudio you can insert the skeleton with <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> .
@@ -368,11 +372,12 @@ In Rstudio you can convert the special comments into documentation with <kbd>Ctr
 
 --
 
-.pull-right[Write your own documentation]
+.center[Write your own documentation]
 
 ```{r countdown4, echo=FALSE}
 countdown::countdown(minutes = 3, top = 0)
 ```
+
 
 
 ---
@@ -385,13 +390,7 @@ name: vignettes
 Long form of documentation, how multiple functions work together (It can use functions of other packages)
 
 ```r
-usethis::use_vignette()
-```
-
-Edit the title!
-
-```r
-
+usethis::use_vignette(name = "intro")
 ```
 
 --
@@ -413,10 +412,36 @@ name: tests
 ## Tests
 
 Make sure that what you think it happens it really stays that way:
+Can be quite complicated
 
 ```r
-uses_testthat()
+use_testthat()
+use_test("meow")
 ```
+
+.pull-left[
+Change from:
+
+```r
+test_that("multiplication works", {
+  expect_equal(2 * 2, 4)
+})
+
+```
+]
+
+.pull-right[
+
+To: 
+```r
+test_that("mewo works", {
+  expect_message(meow(), "meow")
+})
+```
+
+If you used the [meow function](#namespace) 
+]
+
 
 
 --
@@ -455,6 +480,20 @@ Sharing what changed between releases
 usethis::use_news_md()
 ```
 
+The file has this structure:
+
+```raw
+ # dogs 0.0.0.9000
+
+ * Added a `NEWS.md` file to track changes to the package.
+
+```
+
+Version of the package
+
+Text describing changes on the packages. 
+It is a good place to acknowledge minor contributions
+
 ???
 Modify to explain the changes.
 Good idea to use - (#issue, `@user`)
@@ -467,6 +506,8 @@ countdown::countdown(minutes = 3, top = 0)
 
 ---
 ## Finishing and checking
+
+Check if everything works well! It can take some time.
 
 ```r
 check()
@@ -498,6 +539,9 @@ Automatically runs the test and checks the package compilance with common qualit
 
 ---
 ## Questions, doubts, comments?
+
+- It is normal to not succeed on the first5 attempts!!
+- Search, ask whenever you need.
 
 Thanks for following through it.
 
