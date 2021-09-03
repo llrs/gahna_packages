@@ -7,7 +7,7 @@ author: '[Lluís Revilla Sancho](https://llrs.dev)
  [`r icons::fontawesome("github")`](https://github.com/llrs/ghana_packages/) 
  '
 institute: "IDIBAPS, CIBEREHD"
-date: "2021/08/31 (updated: `r Sys.Date()`)"
+date: "2021-09-04 <sup><sub>(updated: `r Sys.Date()`)</sub></sup>"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -57,21 +57,20 @@ meta() %>%
 
 # About 
 
-.center[**myself**]
+.left[**myself**
 
-I'm [Lluís Revilla Sancho](https://llrs.dev), a bioinformatician working on a research center of a hospital.
-
-Three packages on repositories: [BioCor](https://bioconductor.org/packages/BioCor/), [BaseSet](https://cran.r-project.org/package=BaseSet) and [experDesign](https://cran.r-project.org/package=experDesign). 
- 
+I'm [Lluís Revilla Sancho](https://llrs.dev), a bioinformatician working on a research center of a hospital. 
+Three packages on repositories: [BioCor](https://bioconductor.org/packages/BioCor/), [BaseSet](https://cran.r-project.org/package=BaseSet) and [experDesign](https://cran.r-project.org/package=experDesign).  
 I have reviewed some packages on [rOpenSci](https://ropensci.org) and informally at [Bioconductor](https://bioconductor.org). 
+]
 
-.center[**you**]
+.center[**you**
 
-.right[
-... know how to use R and write functions.  
-... are using [RStudio IDE](https://www.rstudio.com/products/rstudio/download/).  
-... have not created a package.  
-... are using a computer with [devtools](https://cran.r-project.org/package=devtools) installed.  
+
+- ... know how to use R and write functions.  
+- ... are using [RStudio IDE](https://www.rstudio.com/products/rstudio/download/).  
+- ... have not created a package.  
+- ... are using a computer with the latest [devtools](https://cran.r-project.org/package=devtools) installed.  
 ]
 
 If you want to be sure run this code:
@@ -168,6 +167,7 @@ It will create a dogs project within the directory and will open a new Rstudio w
 
 --
 
+.pull-left[
 Suggestions for packages:
 
 - fruits
@@ -175,7 +175,12 @@ Suggestions for packages:
 - food
 - sports
 - ...
+]
 
+.pull-right[
+
+![:scale 70% "Ghana market with cattle"](https://live.staticflickr.com/4041/4584360223_5ab315bfa4_b.jpg)
+]
 ```{r countdown1, echo=FALSE}
 countdown::countdown(minutes = 1, seconds = 30, top = 0, margin = "5%")
 ```
@@ -432,14 +437,13 @@ test_that("multiplication works", {
 
 .pull-right[
 
-To: 
+To (**If** you used the [meow function](#namespace)): 
 ```r
 test_that("mewo works", {
   expect_message(meow(), "meow")
 })
 ```
 
-If you used the [meow function](#namespace) 
 ]
 
 
@@ -540,10 +544,14 @@ Automatically runs the test and checks the package compilance with common qualit
 ---
 ## Questions, doubts, comments?
 
-- It is normal to not succeed on the first5 attempts!!
+- It is normal to not succeed on the first 5-10 attempts!!
 - Search, ask whenever you need.
 
 Thanks for following through it.
+
+
+![:scale 40% ""](https://media1.giphy.com/media/f2HiQKaEkaKwo/giphy.gif?cid=ecf05e475uwtpser5kqd7t5pwoz8vdrrkbp817x708vdb4ci&rid=giphy.gif&ct=g)
+???
 
 ---
 name:advanced
@@ -557,6 +565,9 @@ To set it up use:
 ```{r git, eval=FALSE}
 usethis::use_git()
 ```
+
+???
+Version controls helps you to modify code securely and interact with others (and receive their suggestions). 
 
 
 ---
@@ -577,20 +588,38 @@ usethis::use_github_action_check_release()
 
 Use the git panel of Rstudio to commit and push updates on the package. 
 
+???
+
+Having a package public on github can help on your CV and to get users. 
+
 ---
 # Advanced
 ## Code coverage
 
+Report how much of the package is tested.
 
 ```{r coverage, eval=FALSE}
 usethis::use_coverage()
 ```
 
+It can be done offline on your computer `covr::report()` but usually also reported online. 
+
+???
+Aim to have high code coverage (above 75%). 
+High code coverage prevents your users (and yourself) to push changes that do not work. 
+
+
 ---
 # Advanced
 ## Pkgdown website
+
+Now that the package is working and public, a website makes it easier for users to find documentation.
 
 ```{r pkgdown, eval=FALSE}
 usethis::use_pkgdown()
 usethis::use_pkgdown_github_pages()
 ```
+
+???
+
+It is also great for publicity, so others can read and learn about your package without installing it. 
